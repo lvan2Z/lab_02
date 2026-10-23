@@ -1,6 +1,11 @@
 class StreamStatsError(Exception):
     pass
 
+
+class UnsupportedFormatError(StreamStatsError):
+    pass
+
+
 class InvalidEventError(StreamStatsError):
     def __init__(self, message, line_number=None, file_name=None):
         self.line_number = line_number
@@ -8,7 +13,15 @@ class InvalidEventError(StreamStatsError):
         full_msg = "Invalid event"
         if file_name:
             full_msg += f" in {file_name}"
-            if line_number:
+            if line_number is not None:
                 full_msg += f" at line {line_number}"
         full_msg += f": {message}"
         super().__init__(full_msg)
+
+
+class InvalidTimestampError(InvalidEventError):
+    pass
+
+
+class CLIConfigError(StreamStatsError):
+    pass
